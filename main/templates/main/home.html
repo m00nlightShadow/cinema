@@ -1,7 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}Web store{% endblock %}
+{% block title %}Cinema{% endblock %}
 
 {% block content %}
-Hello
+    <div class="row">
+        {% for movie_session in movie_sessions %}
+            <div div class="card" style="width: 18rem;">
+                <p> Title: {{ movie_session.title }} </p>
+                <p> Description: {{ movie_session.description }} </p>
+                <p> Start: {{ movie_session.start }} </p>
+                <p> End: {{ movie_session.end }} </p>
+                <p> Hall: {{ movie_session.hall }} </p>
+                <p> Tickets available: {{ movie_session.tickets }} </p>
+                {% if request.user.is_authenticated %}
+                    <form method="post" action='{% url "buy_tickets" movie_session.pk %}'>
+                        {% csrf_token %}
+                        {{ purchase_form }}
+                        <input type="submit" value="Submit">
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -5,18 +5,37 @@
     <title>Title</title>
 </head>
 <body>
+<div>
+    <a href="{% url 'home' %}">Cinema</a>
+</div>
+
 <h4>Account</h4>
     {% if not request.user.is_authenticated %}
         <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'registration' %}">Registration</a>
     {% else %}
         <p>
             hello {{ request.user.username }}
+            <a href="{% url 'my_tickets' %}">My tickets</a>
             <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>
             </form>
         </p>
+        {% if request.user.is_staff %}
+            <a href="{% url 'create_hall' %}">Create hall</a>
+            <a href="{% url 'create_movie_session' %}">Create session</a>
+        {% endif %}
     {% endif %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li
+                    {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {% block content %}
 {% endblock %}
 </body>

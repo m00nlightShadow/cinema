@@ -8,30 +8,28 @@ class CinemaUser(AbstractUser):
 
 class Hall(models.Model):
     name = models.CharField(max_length=100)
-    seats = models.PositiveIntegerField(default=1)
+    seats = models.PositiveIntegerField()
 
     def __str__(self):
-        return f'{self.name} - {self.size} seats'
+        return f'{self.name} - {self.seats} seats'
 
 
-class Movie(models.Model):
-    title = models.CharField(max_length=255)
-
-    def __str__(self):
-        return {self.title}
-
-
-class Session(models.Model):
+class MovieSession(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
-    hall = models.ForeignKey(Hall, on_delete=models.CASCADE, related_name='session_hall')
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='session_movie')
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    hall = models.ForeignKey(Hall, on_delete=models.CASCADE, related_name='movie_session')
+    title = models.CharField(max_length=100)
+    tickets = models.PositiveIntegerField()
+    description = models.CharField(max_length=255)
 
     def __str__(self):
-        return f'{self.movie} starts at {self.start}, ends at {self.end}'
+        return f'{self.title} starts at {self.start}, ends at {self.end}'
 
 
 class Purchase(models.Model):
     user = models.ForeignKey(CinemaUser, on_delete=models.CASCADE)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    movie_session = models.ForeignKey(MovieSession, on_delete=models.CASCADE)
+    tickets_quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.tickets_quantity} tickets for {self.user} to {self.movie_session}'

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Add hall{% endblock %}
+
+{% block content %}
+    <h1>Add hall</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Add hall</button>
+    </form>
+
+    <h1>Halls</h1>
+    <div class="row">
+        {% for hall in halls %}
+            <div class="card" style="width: 18rem;">
+                <p> Title: {{ hall.name }} </p>
+                <p> Seats: {{ hall.seats }} </p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

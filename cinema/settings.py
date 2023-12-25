@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main'
 ]
 
 MIDDLEWARE = [
@@ -45,6 +46,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'main.middleware.AutoLogoutMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -54,7 +56,7 @@ ROOT_URLCONF = 'cinema.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['main/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,8 +77,12 @@ WSGI_APPLICATION = 'cinema.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cinema',
+        'USER': 'cinema_user',
+        'PASSWORD': 'cinemapass',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -121,3 +127,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "main.CinemaUser"
+
+TIME_TO_LOGOUT = 60
+
+DATETIME_LOGOUT_FORMAT = '%H:%M:%S %d.%m.%Y %z'

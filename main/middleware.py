@@ -5,6 +5,7 @@ from django.utils.deprecation import MiddlewareMixin
 from django.utils import timezone
 from django.conf import settings
 
+
 class AutoLogoutMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
@@ -16,4 +17,3 @@ class AutoLogoutMiddleware(MiddlewareMixin):
             if last_action and timezone.now() - last_action > timedelta(seconds=settings.TIME_TO_LOGOUT):
                 logout(request)
                 return
-

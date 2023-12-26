@@ -16,6 +16,7 @@
             <div class="card" style="width: 18rem;">
                 <p> Title: {{ hall.name }} </p>
                 <p> Seats: {{ hall.seats }} </p>
+                <a href="{% url 'update_hall' hall.pk %}">Update hall</a>
             </div>
         {% endfor %}
     </div>

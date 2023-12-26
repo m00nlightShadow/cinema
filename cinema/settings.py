@@ -130,6 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "main.CinemaUser"
 
-TIME_TO_LOGOUT = 60
+TIME_TO_LOGOUT = 300
 
 DATETIME_LOGOUT_FORMAT = '%H:%M:%S %d.%m.%Y %z'

@@ -19,6 +19,8 @@
                 <p> Tickets: {{ movie_session.tickets }} </p>
                 <p> Starts: {{ movie_session.start }} </p>
                 <p> Ends: {{ movie_session.end }} </p>
+                <p> Price: {{ movie_session.price }} </p>
+                <a href="{% url 'update_movie_session' movie_session.pk %}">Update session</a>
             </div>
         {% endfor %}
     </div>

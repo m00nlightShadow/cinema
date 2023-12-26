@@ -3,6 +3,9 @@
 {% block title %}My tickets{% endblock %}
 
 {% block content %}
+<div>
+    Total spent: {{ total_cost }}
+</div>
 {% for purchase in purchases %}
     <div div class="card" style="width: 18rem;">
         <p> Session: {{ purchase.movie_session.title }} </p>
@@ -12,4 +15,5 @@
         <p> Tickets: {{ purchase.tickets_quantity}} </p>
     </div>
 {% endfor %}
+
 {% endblock %}

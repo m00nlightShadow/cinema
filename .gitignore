@@ -6,3 +6,7 @@ db.sqlite3
 media
 .idea
 .toml
+Include/
+Lib/
+Scripts/
+migrations/

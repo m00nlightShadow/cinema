@@ -9,7 +9,7 @@ from django.conf import settings
 class AutoLogoutMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and not request.user.is_staff:
             last_action = request.session.get('last_action')
             if last_action:
                 last_action = datetime.strptime(last_action, settings.DATETIME_LOGOUT_FORMAT)

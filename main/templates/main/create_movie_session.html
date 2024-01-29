@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Create session{% endblock %}
+
+{% block content %}
+    <h1>Create session</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Create session</button>
+    </form>
+
+    <h1>Sessions</h1>
+    <div class="row">
+        {% for movie_session in movie_sessions %}
+            <div class="card" style="width: 18rem;">
+                <p> Title: {{ movie_session.title }} </p>
+                <p> Hall: {{ movie_session.hall }} </p>
+                <p> Tickets: {{ movie_session.tickets }} </p>
+                <p> Starts: {{ movie_session.start }} </p>
+                <p> Ends: {{ movie_session.end }} </p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

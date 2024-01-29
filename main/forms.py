@@ -26,6 +26,15 @@ class HallForm(forms.ModelForm):
         model = Hall
         fields = '__all__'
 
+    def clean(self):
+        cleaned_data = super().clean()
+        seats = cleaned_data.get('seats')
+
+        if seats < 1:
+            raise ValidationError('Please enter correct seats quantity')
+
+        return cleaned_data
+
 
 class MovieSessionForm(forms.ModelForm):
     class Meta:
@@ -39,28 +48,28 @@ class MovieSessionForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        start_time = cleaned_data.get('start')
-        end_time = cleaned_data.get('end')
+        start = cleaned_data.get('start')
+        end = cleaned_data.get('end')
         tickets = cleaned_data.get('tickets')
         hall_seats = cleaned_data.get('hall').seats
 
         if tickets is not None and (tickets > hall_seats or tickets == 0):
             raise ValidationError('The number of tickets must not exceed the number of seats in the hall')
 
-        if start_time and end_time:
+        if start and end:
             overlapping_sessions = MovieSession.objects.filter(
                 hall=cleaned_data.get('hall'),
-                start__lt=end_time,
-                end__gt=start_time
+                start__lt=end,
+                end__gt=start
             ).exclude(pk=self.instance.pk)
 
             if overlapping_sessions.exists():
                 raise ValidationError('The session overlaps with another session. Please choose another time')
 
-            if start_time >= end_time:
+            if start >= end:
                 raise ValidationError('Movie session can not starts before ends')
 
-            if start_time < timezone.now():
+            if start < timezone.now():
                 raise ValidationError('You cannot start movie session in the past.')
         return cleaned_data
 

@@ -5,10 +5,11 @@ from django.contrib import messages
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, FormView, UpdateView, DeleteView, DetailView
+from django.views.generic import CreateView, ListView, FormView, UpdateView
 from main.forms import RegistrationForm, HallForm, MovieSessionForm, PurchaseForm
 from main.mixins import StaffRequiredMixin
-from main.models import MovieSession, Hall, Purchase, CinemaUser
+from main.models import MovieSession, Hall, Purchase
+from django.utils import timezone
 
 
 class HomeView(ListView):
@@ -16,6 +17,37 @@ class HomeView(ListView):
     model = MovieSession
     context_object_name = 'movie_sessions'
     extra_context = {'purchase_form': PurchaseForm}
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sort_param = self.request.GET.get('sort')
+        date_param = self.request.GET.get('date')
+        now = timezone.now()
+        queryset = queryset.filter(start__gt=now)
+
+        if sort_param == 'price':
+            queryset = queryset.order_by('price')
+        elif sort_param == '-price':
+            queryset = queryset.order_by('-price')
+        if sort_param == 'start':
+            queryset = queryset.order_by('start')
+        elif sort_param == '-start':
+            queryset = queryset.order_by('-start')
+
+        if date_param == 'today':
+            today = timezone.now().date()
+            queryset = queryset.filter(start__date=today)
+        elif date_param == 'tomorrow':
+            tomorrow = timezone.now().date() + timezone.timedelta(days=1)
+            queryset = queryset.filter(start__date=tomorrow)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sort'] = self.request.GET.get('sort')
+        context['date'] = self.request.GET.get('date')
+        return context
 
 
 class UserLoginView(LoginView):

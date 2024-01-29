@@ -3,6 +3,20 @@
 {% block title %}Cinema{% endblock %}
 
 {% block content %}
+<form method="get" action="">
+    <label for="sort">Sort by:</label>
+    <select name="sort" id="sort">
+      <option value="price">Price (Low to High)</option>
+      <option value="-price">Price (High to Low)</option>
+      <option value="start">Start Time</option>
+      <option value="-start">Start Time (Latest First)</option>
+    </select>
+    <button type="submit">Sort</button>
+  </form>
+
+  <a href="?date=today&sort={{ sort }}">Show sessions for today</a>
+  <a href="?date=tomorrow&sort={{ sort }}">Show sessions for tomorrow</a>
+
     <div class="row">
         {% for movie_session in movie_sessions %}
             <div div class="card" style="width: 18rem;">

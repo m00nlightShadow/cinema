@@ -1,4 +1,3 @@
-from django.contrib.auth.views import LogoutView
 from django.urls import path
 
 from main.views import (HomeView, UserLoginView,
@@ -17,5 +16,4 @@ urlpatterns = [
     path('my-tickets/', MyPurchasesView.as_view(), name='my_tickets'),
     path('update-hall/<int:pk>/', UpdateHallView.as_view(), name='update_hall'),
     path('update-movie-session/<int:pk>/', UpdateMovieSessionView.as_view(), name='update_movie_session'),
-
 ]

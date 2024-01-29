@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.core.exceptions import ValidationError
@@ -55,6 +57,11 @@ class MovieSessionForm(forms.ModelForm):
             if overlapping_sessions.exists():
                 raise ValidationError('The session overlaps with another session. Please choose another time')
 
+            if start_time >= end_time:
+                raise ValidationError('Movie session can not starts before ends')
+
+            if start_time < timezone.now():
+                raise ValidationError('You cannot start movie session in the past.')
         return cleaned_data
 
 

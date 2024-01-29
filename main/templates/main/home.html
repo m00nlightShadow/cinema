@@ -11,6 +11,7 @@
                 <p> Start: {{ movie_session.start }} </p>
                 <p> End: {{ movie_session.end }} </p>
                 <p> Hall: {{ movie_session.hall }} </p>
+                <p> Price: {{ movie_session.price }} </p>
                 <p> Tickets available: {{ movie_session.tickets }} </p>
                 {% if request.user.is_authenticated %}
                     <form method="post" action='{% url "buy_tickets" movie_session.pk %}'>
